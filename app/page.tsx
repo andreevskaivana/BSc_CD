@@ -22,6 +22,7 @@ export default async function Home({ searchParams }: HomeProps) {
   });
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+
   return (
     <main className='overflow-hidden'>
       <Hero />
@@ -44,9 +45,10 @@ export default async function Home({ searchParams }: HomeProps) {
         {!isDataEmpty ? (
           <section>
             <div className='home__cars-wrapper'>
-              {allCars?.map((car) => (
-                <CarCard key={car.id} car={car} />
+              {allCars?.map((car, index) => (
+                <CarCard key={index} car={car} />
               ))}
+
             </div>
 
             <ShowMore
