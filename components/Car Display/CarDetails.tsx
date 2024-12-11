@@ -72,7 +72,8 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
                 </div>
 
                 <div className='flex-1 flex flex-col gap-2'>
-                  <h2 className='font-semibold text-xl capitalize'>
+                  <h2 className='font-semibold text-xl capitalize text-center'>
+
                     {car.make} {car.model}
                   </h2>
 
@@ -84,8 +85,8 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
                         </h4>
                         <p className='text-black-100 font-semibold'>
                           {typeof value === "string"
-                          ? value.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
-                          : value}
+                            ? value.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+                            : value}
                         </p>
                       </div>
                     ))}
