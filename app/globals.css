@@ -202,7 +202,7 @@
 
 /* START: search manufacturer styles */
 .search-manufacturer {
-  @apply flex-1 max-sm:w-full flex justify-start items-center;
+  @apply flex-1 max-sm:w-full flex justify-start items-center z-10;
 }
 
 .search-manufacturer__input {
