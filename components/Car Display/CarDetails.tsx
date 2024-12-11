@@ -66,7 +66,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
                       <Image src={generateCarImageUrl(car, "33")} alt='car model' fill priority className='object-contain' />
                     </div>
                     <div className='flex-1 relative w-full h-24 bg-primary-blue-100 rounded-lg'>
-                      <Image  src={generateCarImageUrl(car, "13")} alt='car model' fill priority className='object-contain' />
+                      <Image src={generateCarImageUrl(car, "13")} alt='car model' fill priority className='object-contain' />
                     </div>
                   </div>
                 </div>
@@ -78,16 +78,19 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
 
                   <div className='mt-3 flex flex-wrap gap-4'>
                     {Object.entries(car).map(([key, value]) => (
-                      <div className='flex justify-between gap-5 w-full text-right' key={key} >
+                      <div className='flex justify-between gap-5 w-full text-right' key={key}>
                         <h4 className='text-grey capitalize'>
                           {key.split("_").join(" ")}
                         </h4>
                         <p className='text-black-100 font-semibold'>
-                          {value}
+                          {typeof value === "string"
+                          ? value.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+                          : value}
                         </p>
                       </div>
                     ))}
                   </div>
+
                 </div>
               </DialogPanel>
             </TransitionChild>
