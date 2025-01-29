@@ -11,6 +11,7 @@ interface CarDetailsProps {
   car: CarProps;
 }
 
+
 const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
   <>
     <Transition appear show={isOpen} as={Fragment}>
@@ -73,22 +74,23 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => (
 
                 <div className='flex-1 flex flex-col gap-2'>
                   <h2 className='font-semibold text-xl capitalize text-center'>
-
                     {car.make} {car.model}
                   </h2>
 
                   <div className='mt-3 flex flex-wrap gap-4'>
                     {Object.entries(car).map(([key, value]) => (
-                      <div className='flex justify-between gap-5 w-full text-right' key={key}>
+                      key !== "id" && (
+                      <div key={key} className='flex justify-between gap-5 w-full text-right'>
                         <h4 className='text-grey capitalize'>
-                          {key.split("_").join(" ")}
+                        {key.split("_").join(" ")}
                         </h4>
                         <p className='text-black-100 font-semibold'>
-                          {typeof value === "string"
-                            ? value.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
-                            : value}
+                        {typeof value === "string"
+                          ? value.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+                          : value}
                         </p>
                       </div>
+                      )
                     ))}
                   </div>
 

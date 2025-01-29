@@ -1,6 +1,5 @@
 import { CarProps, FilterProps } from "../types";
 
-// Calculate total rental rate per day
 export const calculateCarRent = (
   city_mpg: number,
   year: number,
@@ -13,57 +12,34 @@ export const calculateCarRent = (
   const rentalRatePerDay = basePricePerDay + mileageRate + ageRate;
   return Math.round(rentalRatePerDay); // Return as a rounded number
 };
-
-export const updateSearchParams = (type: string, value: string) => {
-  // Get the current URL search params
-  const searchParams = new URLSearchParams(window.location.search);
-
-  // Set the specified search parameter to the given value
-  searchParams.set(type, value);
-
-  // Set the specified search parameter to the given value
-  const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
-
-  return newPathname;
-};
-
-export const deleteSearchParams = (type: string) => {
-  // Set the specified search parameter to the given value
-  const newSearchParams = new URLSearchParams(window.location.search);
-
-  // Delete the specified search parameter
-  newSearchParams.delete(type.toLocaleLowerCase());
-
-  // Construct the updated URL pathname with the deleted search parameter
-  const newPathname = `${
-    window.location.pathname
-  }?${newSearchParams.toString()}`;
-
-  return newPathname;
-};
-
-export async function fetchCars(filters: FilterProps) {
-  const { manufacturer, year, model, limit, fuel } = filters;
-
-  // Set the required headers for the API request
-  const headers: HeadersInit = {
-    "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY || "",
-    "x-rapidapi-host": process.env.NEXT_PUBLIC_RAPIDAPI_HOST || "",
-  };  
-
-  // Set the required headers for the API request
+export async function fetchCars() {
   const response = await fetch(
-    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
-    {
-      headers: headers,
-    }
+    `${process.env.NEXT_PUBLIC_BACKEND_HOST}/cars/getAllCars`,
+
   );
-
-  // Parse the response as JSON
   const result = await response.json();
-
   return result;
 }
+
+export async function searchCars(manufacturer: string, model: string) {
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/cars/search`);
+
+  if (manufacturer) {
+      url.searchParams.append("manufacturer", manufacturer);
+  }
+  if (model) {
+      url.searchParams.append("model", model);
+  }
+
+  const response = await fetch(url);
+  if (!response.ok) {
+      throw new Error('Failed to fetch cars');
+  }
+
+  const result = await response.json();
+  return result;
+}
+
 
 export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
@@ -80,6 +56,7 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   url.searchParams.append("modelYear", `${year}`);
   // url.searchParams.append('zoomLevel', zoomLevel);
   url.searchParams.append("angle", `${angle}`);
+  console.log(`${url}`);
 
   return `${url}`;
 };
