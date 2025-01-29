@@ -216,4 +216,16 @@
 .search-manufacturer__option {
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
+/* Dropdown Styles */
+.searchbar__input {
+  @apply w-full h-[48px] pl-12 p-4 bg-light-white rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm;
+}
+
+select.searchbar__input {
+  @apply appearance-none; /* Remove default arrow */
+  background-image: url("data:image/svg+xml;charset=UT..."); /* Add custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.5em;
+}
 /* END: search manufacturer styles */

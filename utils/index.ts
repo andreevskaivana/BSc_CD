@@ -39,7 +39,24 @@ export async function searchCars(manufacturer: string, model: string) {
   const result = await response.json();
   return result;
 }
+export async function searchCarsByFuelTypeAndYear(fuelType: string, yearOfProduction: number | null) {
+  const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND_HOST}/cars/searchByFuelTypeAndYear`);
 
+  if (fuelType) {
+      url.searchParams.append("fuelType", fuelType);
+  }
+  if (yearOfProduction) {
+      url.searchParams.append("yearOfProduction", yearOfProduction.toString());
+  }
+
+  const response = await fetch(url.toString());
+  if (!response.ok) {
+      throw new Error('Failed to fetch cars');
+  }
+
+  const result = await response.json();
+  return result;
+}
 
 export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
