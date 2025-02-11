@@ -1,12 +1,12 @@
-"use client"; // Mark this as a client component
+"use client"; 
 
 import { searchCars, searchCarsByFuelTypeAndYear } from '@/utils';
 import React, { useState } from 'react';
-import { fuels, yearsOfProduction } from '@/constants'; // Import constants
+import { fuels, yearsOfProduction } from '@/constants'; 
 
 interface SearchCarsProps {
-    onSearchResults: (results: any[]) => void; // Callback to pass search results to the parent
-    onClearFilters: () => void; // Callback to clear filters
+    onSearchResults: (results: any[]) => void; 
+    onClearFilters: () => void; 
 }
 
 const SearchCars = ({ onSearchResults, onClearFilters }: SearchCarsProps) => {
@@ -17,22 +17,19 @@ const SearchCars = ({ onSearchResults, onClearFilters }: SearchCarsProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault(); // Prevent the form from refreshing the page
+        e.preventDefault(); 
         setIsLoading(true);
 
         try {
             let results;
             if (manufacturer || model) {
-                // Search by manufacturer and model
                 results = await searchCars(manufacturer, model);
             } else if (fuelType || yearOfProduction) {
-                // Search by fuel type and year of production
                 results = await searchCarsByFuelTypeAndYear(fuelType, yearOfProduction ? parseInt(yearOfProduction) : null);
             } else {
-                // If no filters are selected, fetch all cars
                 results = await searchCars('', '');
             }
-            onSearchResults(results); // Pass results to the parent
+            onSearchResults(results); 
         } catch (error) {
             console.error("Error searching cars:", error);
         } finally {
@@ -45,7 +42,7 @@ const SearchCars = ({ onSearchResults, onClearFilters }: SearchCarsProps) => {
         setModel('');
         setFuelType('');
         setYearOfProduction('');
-        onClearFilters(); // Notify the parent to clear filters
+        onClearFilters(); 
     };
 
     return (
