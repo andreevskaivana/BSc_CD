@@ -1,4 +1,4 @@
-import { CarProps, FilterProps } from "../types";
+import { CarProps } from "../types";
 
 export const calculateCarRent = (
   city_mpg: number,

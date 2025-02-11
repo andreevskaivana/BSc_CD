@@ -1,7 +1,8 @@
-"use client"; // Mark this as a client component
+"use client";
 
 import { CarCard, Hero } from "@/components";
 import SearchCars from "@/components/Filtering/SearchCars";
+import ShowMore from "@/components/Navigation/ShowMore";
 import { fetchCars } from "@/utils";
 import React, { useState, useEffect } from "react";
 
@@ -10,7 +11,7 @@ export default function Home() {
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const carsPerPage = 6; // Number of cars per page
+    const carsPerPage = 8;
 
     // Fetch all cars when the app loads
     useEffect(() => {
@@ -29,18 +30,17 @@ export default function Home() {
     const handleSearchResults = (results: any[]) => {
         setSearchResults(results);
         setIsSearching(true);
-        setCurrentPage(1); // Reset to first page after search
+        setCurrentPage(1);
     };
 
     const handleClearFilters = async () => {
         setSearchResults(allCars);
         setIsSearching(false);
-        setCurrentPage(1); // Reset to first page
+        setCurrentPage(1);
     };
 
     const isDataEmpty = !Array.isArray(searchResults) || searchResults.length < 1 || !searchResults;
 
-    // Pagination Logic
     const totalPages = Math.ceil(searchResults.length / carsPerPage);
     const startIndex = (currentPage - 1) * carsPerPage;
     const displayedCars = searchResults.slice(startIndex, startIndex + carsPerPage);
@@ -72,25 +72,13 @@ export default function Home() {
                             ))}
                         </div>
 
-                        {/* Pagination Controls */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center mt-6 space-x-4">
-                                <button
-                                    onClick={handlePrevPage}
-                                    disabled={currentPage === 1}
-                                    className={`px-4 py-2 rounded-lg ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-700"}`}
-                                >
-                                    Previous
-                                </button>
-                                <span className="text-lg font-semibold">{`Page ${currentPage} of ${totalPages}`}</span>
-                                <button
-                                    onClick={handleNextPage}
-                                    disabled={currentPage === totalPages}
-                                    className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-700"}`}
-                                >
-                                    Next
-                                </button>
-                            </div>
+                            <ShowMore
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onNextPage={handleNextPage}
+                                onPrevPage={handlePrevPage}
+                            />
                         )}
                     </section>
                 ) : (

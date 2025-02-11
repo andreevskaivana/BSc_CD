@@ -1,35 +1,32 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { updateSearchParams } from "@/utils";
-import { ShowMoreProps } from "@/types";
-import CustomButton from "../Custom Components/CustomButton";
+import React from "react";
 
+interface ShowMoreProps {
+  currentPage: number;
+  totalPages: number;
+  onNextPage: () => void;
+  onPrevPage: () => void;
+}
 
-
-const ShowMore = ({ pageNumber, isNext }: ShowMoreProps) => {
-  const router = useRouter();
-
-  const handleNavigation = () => {
-    // Calculate the new limit based on the page number and navigation type
-    const newLimit = (pageNumber + 1) * 10;
-
-    // Update the "limit" search parameter in the URL with the new value
-    const newPathname = updateSearchParams("limit", `${newLimit}`);
-    
-    router.push(newPathname,{scroll: false});
-  };
-
+const ShowMore: React.FC<ShowMoreProps> = ({ currentPage, totalPages, onNextPage, onPrevPage }) => {
   return (
-    <div className="w-full flex-center gap-5 mt-10">
-      {!isNext && (
-        <CustomButton
-          btnType="button"
-          title="Show More"
-          containerStyles="bg-primary-blue rounded-full text-white"
-          handleClick={handleNavigation}
-        />
-      )}
+    <div className="flex justify-center mt-6 space-x-4">
+      <button
+        onClick={onPrevPage}
+        disabled={currentPage === 1}
+        className={`px-4 py-2 rounded-lg ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-700"}`}
+      >
+        Previous
+      </button>
+      <span className="text-lg font-semibold">{`Page ${currentPage} of ${totalPages}`}</span>
+      <button
+        onClick={onNextPage}
+        disabled={currentPage === totalPages}
+        className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-700"}`}
+      >
+        Next
+      </button>
     </div>
   );
 };
