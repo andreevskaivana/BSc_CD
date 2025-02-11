@@ -1,7 +1,7 @@
 "use client"; // Mark this as a client component
 
 import { CarCard, Hero } from "@/components";
-import SearchCars from "@/components/filtering/SearchCars";
+import SearchCars from "@/components/Filtering/SearchCars";
 import { fetchCars } from "@/utils";
 import React, { useState, useEffect } from "react";
 
